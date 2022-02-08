@@ -1,40 +1,57 @@
 import axios from "axios";
-
+import {InfoType, queryType, RatesType, SymbolsType} from "../Types/Types";
 
 
 const instance = axios.create({
     withCredentials: false,
     baseURL: `https://api.exchangerate.host/`
 })
+
+type CurrencyLatestAPIType = {
+    base: string | null
+    date: string | null | number
+    rates: Array<RatesType>
+    success: boolean
+}
+type CurrencyConvertAPIType = {
+    base: string | null
+    date: string | null | number
+    rates: Array<RatesType>
+    success: boolean
+    query: queryType
+    info: InfoType
+    historical: boolean
+    result: number
+}
+type SupportedSymbolsAPIType = {
+    success: boolean
+    symbols: Array<SymbolsType>
+    info: InfoType
+    historical: boolean
+    result: number
+}
 export const currencyAPI = {
     convert() {
-        return instance.get<any>(`convert?from=USD&to=EUR`)
+        return instance.get<CurrencyConvertAPIType>(`convert?from=USD&to=EUR`)
             .then(response => {
-                console.log('from API: ',response)
-                console.log('from API rate: ',response.data.info)
-                console.log('from API rate: ',response.data.info)
-                console.log('from API rate: ',response.data.result)
+                console.log('from API.convert: ',response)
+                return response.data
             });
     },
-    currency() {
-        return instance.get<any>(`latest`)
+    currencyLatest() {
+        return instance.get<CurrencyLatestAPIType>(`latest`)
             .then(response => {
-                console.log('currencyAPI.currency(): ',response)
-                console.log('base currensy: ',response.data.base)
-                console.log('rates: ',response.data.rates)
+                console.log('currencyAPI.currencyLatest(): ',response)
+                return response.data
+            });
+    },
+    supportedSymbols() {
+        return instance.get<SupportedSymbolsAPIType>(`symbols`)
+            .then(response => {
+                console.log('currencyAPI.supportedSymbols(): ',response)
                 return response.data
             });
     },
 
 }
 
-// let requestURL = 'https://api.exchangerate.host/convert?from=USD&to=EUR';
-// let request = new XMLHttpRequest();
-// request.open('GET', requestURL);
-// request.responseType = 'json';
-// request.send();
-//
-// request.onload = function() {
-//     let response = request.response;
-//     console.log(response);
-// }

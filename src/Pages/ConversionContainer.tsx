@@ -1,17 +1,15 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import { requestLatest } from "../Redux/currency-reducer";
 import {AppStateType} from "../Redux/reduxStore";
 import {getRates} from "../Redux/usersSelectors";
-import {currensyMapDispatchToPropsType, currensyMapStateToPropsType } from "../Types/Types";
 import Conversion from "./Conversion";
+import {currencyMapDispatchToPropsType, currencyMapStateToPropsType} from "../Types/Types";
 
 
-type container = {
-    childen: any
-}
-type conversionPropsType = currensyMapStateToPropsType & currensyMapDispatchToPropsType &container
+
+type conversionPropsType = currencyMapStateToPropsType & currencyMapDispatchToPropsType
 
 
 class ConversionContainer extends React.Component <conversionPropsType>  {
@@ -21,17 +19,16 @@ class ConversionContainer extends React.Component <conversionPropsType>  {
                 <Conversion rates={this.props.rates} getRates={this.props.getRates}/>
             </div>
     }
-};
-
-let currensyMapStateToProps = (state: AppStateType):currensyMapStateToPropsType => {
-    return {
-        rates: getRates(state)
-    } as currensyMapStateToPropsType
 }
 
+let currencyMapStateToProps = (state: AppStateType):currencyMapStateToPropsType => {
+    return {
+        rates: getRates(state)
+    } as currencyMapStateToPropsType
+}
 
 export default compose(
-    connect(currensyMapStateToProps,
+    connect(currencyMapStateToProps,
         {
             getRates:requestLatest
         }),

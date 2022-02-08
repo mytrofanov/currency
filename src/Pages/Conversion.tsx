@@ -1,26 +1,25 @@
-import React, {ReactNode} from 'react';
+import React from 'react';
+// @ts-ignore
 import s from './styles/Conversion.module.css'
 import Button from '@mui/material/Button';
-import {requestExchange, requestLatest} from '../Redux/currency-reducer';
 import CustomizedSelects from '../Components/CurrencyInput';
 import Typography from '@mui/material/Typography';
-import {RouteComponentProps} from '@reach/router';
+import {RatesType} from "../Types/Types";
 
 type PropsType = {
-    rates: {},
+    rates: Array<RatesType>
     getRates: () => void
 }
 
 
-const Conversion: React.FC<PropsType> = ({rates, getRates, children}) => {
+const Conversion: React.FC<PropsType> = ({rates, getRates}) => {
     console.log('ConversionPage:', rates)
-
 
     return (
         <div className={s.conversionPage}>
 
             <div className={s.exchangeBox}>
-                <div className={s.sumCurrensyInput}>
+                <div className={s.sumCurrencyInput}>
                     <Typography variant="h5">
                         Select currency to exchange
                     </Typography>
@@ -38,7 +37,9 @@ const Conversion: React.FC<PropsType> = ({rates, getRates, children}) => {
                 </div>
                 <div className={s.resultBlock}>
                     ResultBlock
-                    {rates}
+                    {rates.forEach((item,index)=> {
+                        <div key={index}> {item} </div>
+                    })}
                 </div>
             </div>
 
