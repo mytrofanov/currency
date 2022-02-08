@@ -1,0 +1,19 @@
+.historicalPage{
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+.calendarBox{
+    position: absolute;
+    text-align: center;
+    width: 80%;
+    height: 65%;
+    top: 1%;
+    margin-left: 50%;
+    transform: translateY(-50%);
+    transform: translateX(-50%);
+
+    display: flex;
+    flex-direction: row;
+
+}
