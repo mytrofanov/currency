@@ -1,26 +1,27 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {BrowserRouter} from "react-router-dom";
+import AppRouter from "./Components/AppRouter";
+// @ts-ignore
+import s from './app.module.css'
+import NavMenu from './Components/NavMenu';
+import { Provider } from 'react-redux';
+import store from './Redux/reduxStore';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [page, setPage] = React.useState(0);
+
+    return (
+        <BrowserRouter>
+            <Provider store={store}>
+                <div className={s.app}>
+                    <div className={s.navbar}>
+                        <NavMenu page={page} setPage={setPage}/>
+                    </div>
+                    <AppRouter/>
+                </div>
+            </Provider>
+        </BrowserRouter>
+    );
 }
 
 export default App;
