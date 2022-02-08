@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import NativeSelect from '@mui/material/NativeSelect';
 import InputBase from '@mui/material/InputBase';
 
@@ -39,12 +37,24 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
         },
     },
 }));
+type propsType = {
+    arrayOfSymbols: Array<string>
+    setSelectedCurrency:(arg0:string)=>void
+}
 
-export default function CustomizedSelects() {
+export default function CustomizedSelects({arrayOfSymbols,setSelectedCurrency}:propsType) {
     const [currency, setCurrency] = React.useState('');
     const handleChange = (event: { target: { value: string } }) => {
         setCurrency(event.target.value);
+        setSelectedCurrency(event.target.value)
     };
+    const oList:Array<JSX.Element> = []
+    arrayOfSymbols.map( (item,index) =>
+        oList.push(
+            <option value={item} key={item}>{item}</option>
+        )
+    )
+
     return (
         <div>
             <FormControl sx={{ m: 1 }} variant="standard">
@@ -59,10 +69,7 @@ export default function CustomizedSelects() {
     onChange={handleChange}
     input={<BootstrapInput />}
 >
-    <option aria-label="None" value="" />
-    <option value={10}>Ten</option>
-        <option value={20}>Twenty</option>
-        <option value={30}>Thirty</option>
+            {oList}
         </NativeSelect>
         </FormControl>
         </div>

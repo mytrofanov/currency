@@ -1,11 +1,14 @@
 export type currencyMapStateToPropsType = {
     rates: Array<RatesType>
+    symbols:Array<SymbolsType>
+    selectedCurrency:string
 }
 export type currencyMapDispatchToPropsType = {
     getRates: () => void
+    setSelectedCurrency: (arg0: string)=>void
 }
 export type RatesType = {
-    [key: string] : number
+    [key: string|number ] : number
 }
 
 export interface Item {
@@ -25,4 +28,11 @@ export type SymbolsType = {
         description: string
         code: string
     }
+}
+export type ConversionPropsType = {
+    rates: Array<RatesType>
+    getRates: () => void
+    symbols: Array<SymbolsType>
+    setSelectedCurrency:(arg0:string)=>void
+    selectedCurrency:string
 }

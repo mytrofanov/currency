@@ -23,7 +23,7 @@ type CurrencyConvertAPIType = {
     historical: boolean
     result: number
 }
-type SupportedSymbolsAPIType = {
+export type SupportedSymbolsAPIType = {
     success: boolean
     symbols: Array<SymbolsType>
     info: InfoType
@@ -41,7 +41,6 @@ export const currencyAPI = {
     currencyLatest() {
         return instance.get<CurrencyLatestAPIType>(`latest`)
             .then(response => {
-                console.log('currencyAPI.currencyLatest(): ',response)
                 return response.data
             });
     },

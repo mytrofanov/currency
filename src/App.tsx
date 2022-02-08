@@ -1,27 +1,62 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {BrowserRouter} from "react-router-dom";
-import AppRouter from "./Components/AppRouter";
+import AppRouter from "./AppRouter";
 // @ts-ignore
 import s from './app.module.css'
 import NavMenu from './Components/NavMenu';
-import { Provider } from 'react-redux';
-import store from './Redux/reduxStore';
+import {connect, Provider} from 'react-redux';
+import store, {AppStateType} from './Redux/reduxStore';
+import {requestSupportedSymbols} from "./Redux/currency-reducer";
+import {getSymbols} from "./Redux/usersSelectors";
+import {compose} from "redux";
+import {SymbolsType} from "./Types/Types";
 
-function App() {
+
+interface mapStateToPropsType {
+    symbols: Array<SymbolsType>
+}
+interface mapDispatchToPropsType {
+    getSymbols: () => Promise<void>
+}
+
+type AppPropsType = mapStateToPropsType & mapDispatchToPropsType
+
+function App(props:AppPropsType) {
     const [page, setPage] = React.useState(0);
-
+    useEffect(()=>{
+        console.log('useEffect_props_symbols: ', props.symbols)
+        if (props.symbols.length < 1) {
+            props.getSymbols()
+        }
+    },[])
+    console.log('App_props_symbols: ', props.symbols)
     return (
         <BrowserRouter>
-            <Provider store={store}>
+
                 <div className={s.app}>
                     <div className={s.navbar}>
                         <NavMenu page={page} setPage={setPage}/>
                     </div>
                     <AppRouter/>
                 </div>
-            </Provider>
+
         </BrowserRouter>
     );
 }
 
-export default App;
+const mapStateToProps = (state:AppStateType) => ({
+    symbols: getSymbols(state)
+}) as mapStateToPropsType
+
+
+
+let AppContainer = compose(connect(mapStateToProps,{getSymbols:requestSupportedSymbols}))(App)
+
+let CurrencyApp = ()=>{
+return(
+    <Provider store={store}>
+        <AppContainer/>
+    </Provider>
+)
+}
+export default CurrencyApp;
