@@ -1,9 +1,9 @@
 import React from "react";
 import {connect} from "react-redux";
 import {compose} from "redux";
-import {requestLatest, setSelectedCurrency} from "../Redux/currency-reducer";
+import {requestLatest, setSelectedAmount, setSelectedCurrency} from "../Redux/currency-reducer";
 import {AppStateType} from "../Redux/reduxStore";
-import {getRates, getSelectedCurrency, getSymbols} from "../Redux/usersSelectors";
+import {getRates, getSelectedAmount, getSelectedCurrency, getSymbols} from "../Redux/usersSelectors";
 import Conversion from "./Conversion";
 import {currencyMapDispatchToPropsType, currencyMapStateToPropsType} from "../Types/Types";
 
@@ -18,6 +18,8 @@ class ConversionContainer extends React.Component <conversionPropsType>  {
                             symbols={this.props.symbols}
                             setSelectedCurrency={this.props.setSelectedCurrency}
                             selectedCurrency={this.props.selectedCurrency}
+                            setSelectedAmount={this.props.setSelectedAmount}
+                            selectedAmount={this.props.selectedAmount}
                 />
             </div>
     }
@@ -27,7 +29,8 @@ let currencyMapStateToProps = (state: AppStateType):currencyMapStateToPropsType 
     return {
         rates: getRates(state),
         symbols: getSymbols(state),
-        selectedCurrency: getSelectedCurrency(state)
+        selectedCurrency: getSelectedCurrency(state),
+        selectedAmount: getSelectedAmount(state),
     } as currencyMapStateToPropsType
 }
 
@@ -35,6 +38,7 @@ export default compose(
     connect(currencyMapStateToProps,
         {
             getRates:requestLatest,
-            setSelectedCurrency: setSelectedCurrency
+            setSelectedCurrency: setSelectedCurrency,
+            setSelectedAmount:setSelectedAmount
         }),
     )(ConversionContainer)

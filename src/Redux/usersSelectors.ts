@@ -9,6 +9,9 @@ export const getSymbols = (state:AppStateType) => {
 export const getSelectedCurrency = (state:AppStateType) => {
     return state.currency.selectedCurrency;
 }
+export const getSelectedAmount = (state:AppStateType) => {
+    return state.currency.selectedAmount;
+}
 
 
 

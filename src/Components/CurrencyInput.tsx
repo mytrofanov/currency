@@ -40,14 +40,20 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
 type propsType = {
     arrayOfSymbols: Array<string>
     setSelectedCurrency:(arg0:string)=>void
+    setSelectedAmount:(arg0:number)=>void
+    selectedAmount:number
 }
 
-export default function CustomizedSelects({arrayOfSymbols,setSelectedCurrency}:propsType) {
+export default function CustomizedSelects({arrayOfSymbols,setSelectedCurrency,setSelectedAmount,selectedAmount}:propsType) {
     const [currency, setCurrency] = React.useState('');
     const handleChange = (event: { target: { value: string } }) => {
         setCurrency(event.target.value);
         setSelectedCurrency(event.target.value)
     };
+    const inputChange = (number: number) => {
+        setSelectedAmount(number)
+    };
+
     const oList:Array<JSX.Element> = []
     arrayOfSymbols.map( (item,index) =>
         oList.push(
@@ -59,7 +65,9 @@ export default function CustomizedSelects({arrayOfSymbols,setSelectedCurrency}:p
         <div>
             <FormControl sx={{ m: 1 }} variant="standard">
     <InputLabel htmlFor="demo-customized-textbox">Amount</InputLabel>
-        <BootstrapInput id="demo-customized-textbox" />
+        <BootstrapInput id="demo-customized-textbox" defaultValue={selectedAmount}
+                        onChange={(event)=>{
+                            inputChange(Number(event.target.value))}} />
         </FormControl>
                 <FormControl sx={{ m: 1 }} variant="standard">
     <InputLabel htmlFor="demo-customized-select-native">Currency</InputLabel>

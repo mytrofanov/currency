@@ -7,13 +7,15 @@ import Typography from '@mui/material/Typography';
 import {ConversionPropsType} from "../Types/Types";
 
 
-
-const Conversion: React.FC<ConversionPropsType> = ({rates, getRates, symbols,
-                                                       setSelectedCurrency,selectedCurrency}) => {
+const Conversion:
+    React.FC<ConversionPropsType> = ({ rates, getRates, symbols,
+          setSelectedCurrency, selectedCurrency, setSelectedAmount,selectedAmount
+                                                   }) => {
     console.log('selectedCurrency:', selectedCurrency)
+    console.log('selectedAmount:', selectedAmount)
     let currencyName = Object.entries(symbols)
     let arrayOfSymbols = [] as Array<string>
-    currencyName.forEach(item=>{
+    currencyName.forEach(item => {
         arrayOfSymbols.push(item[0])
     })
 
@@ -26,7 +28,11 @@ const Conversion: React.FC<ConversionPropsType> = ({rates, getRates, symbols,
                         Select currency to exchange
                     </Typography>
 
-                    <CustomizedSelects arrayOfSymbols={arrayOfSymbols} setSelectedCurrency={setSelectedCurrency}/>
+                    <CustomizedSelects arrayOfSymbols={arrayOfSymbols}
+                                       setSelectedCurrency={setSelectedCurrency}
+                                       setSelectedAmount={setSelectedAmount}
+                                       selectedAmount={selectedAmount}
+                    />
                     <Button variant="outlined"
                             sx={{m: 2}}
                             onClick={() => {
