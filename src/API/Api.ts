@@ -44,6 +44,12 @@ export const currencyAPI = {
                 return response.data
             });
     },
+    currencyHistorical(date:string,base:string, amount:number) {
+        return instance.get<CurrencyLatestAPIType>(`${date}?base=${base}&amount=${amount}`)
+            .then(response => {
+                return response.data
+            });
+    },
     supportedSymbols() {
         return instance.get<SupportedSymbolsAPIType>(`symbols`)
             .then(response => {

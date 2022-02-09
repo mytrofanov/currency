@@ -2,11 +2,13 @@
     width: 100%;
     height: 100vh;
     position: relative;
+    display: flex;
+    flex-direction: row;
 }
 .calendarBox{
     position: absolute;
     text-align: center;
-    width: 80%;
+    width: 90%;
     height: 65%;
     top: 1%;
     margin-left: 50%;
@@ -15,5 +17,13 @@
 
     display: flex;
     flex-direction: row;
+    background-color: gray;
+}
+.datePicker{
+    width: 50%;
 
+}
+.historicalRates{
+    width: 50%;
+    background-color: darkseagreen;
 }

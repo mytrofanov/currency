@@ -76,7 +76,6 @@ const Conversion:
                                        setSelectedCurrency={setSelectedCurrency}
                                        setSelectedAmount={setSelectedAmount}
                                        selectedAmount={selectedAmount}
-                                       selectedTargetCurrency={selectedTargetCurrency}
                     />
                     <Button variant="outlined"
                             sx={{m: 2}}

@@ -4,7 +4,7 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
 import InputBase from '@mui/material/InputBase';
-import {setSelectedTargetCurrency} from "../Redux/currency-reducer";
+import {SymbolsType} from "../Types/Types";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
     'label + &': {
@@ -39,15 +39,14 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
     },
 }));
 type propsType = {
-    arrayOfSymbols: Array<string>
+    arrayOfSymbols: Array<string> | SymbolsType[]
     setSelectedCurrency:(arg0:string)=>void
     setSelectedAmount:(arg0:number)=>void
     selectedAmount:number
-    selectedTargetCurrency:string
 }
 
 export default function CustomizedSelects({arrayOfSymbols,setSelectedCurrency,setSelectedAmount,
-                                              selectedAmount,selectedTargetCurrency}:propsType) {
+                                              selectedAmount}:propsType) {
     const [currency, setCurrency] = React.useState('');
     const handleChange = (event: { target: { value: string } }) => {
         setCurrency(event.target.value);
@@ -59,17 +58,14 @@ export default function CustomizedSelects({arrayOfSymbols,setSelectedCurrency,se
     };
 
     const oList:Array<JSX.Element> = []
+
     arrayOfSymbols.map( (item,index) =>
         oList.push(
+            // @ts-ignore
             <option value={item} key={item}>{item}</option>
         )
     )
-    const targetList:Array<JSX.Element> = []
-    arrayOfSymbols.map( (item,index) =>
-        targetList.push(
-            <option value={item} key={item+index}>{item}</option>
-        )
-    )
+
 
     return (
         <div>

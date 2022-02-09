@@ -6,6 +6,7 @@ import {InfoType, RatesType, SymbolsType} from "../Types/Types";
 
 
 const SET_LATEST_RATES = 'SET_LATEST_RATES';
+const SET_HYSTORICAL_RATES = 'SET_HYSTORICAL_RATES';
 const SET_SYMBOLS = 'SET_SYMBOLS';
 const SET_SELECTED_CURRENCY = 'SET_SELECTED_CURRENCY';
 const SET_SELECTED_TARGET_CURRENCY = 'SET_SELECTED_TARGET_CURRENCY';
@@ -19,6 +20,7 @@ const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 
 let initialState = {
     rates: [] as Array<RatesType> ,
+    historicalRates: [] as Array<RatesType> ,
     symbols: [] as Array<SymbolsType> ,
     selectedCurrency: 'AED',
     selectedTargetCurrency: 'AED',
@@ -42,6 +44,9 @@ const currencyReducer = (state = initialState, action: ActionType): InitialState
     switch (action.type) {
         case SET_LATEST_RATES: {
             return {...state, rates: action.rates}
+        }
+        case SET_HYSTORICAL_RATES: {
+            return {...state, historicalRates: action.historicalRates}
         }
         case SET_SYMBOLS: {
             return {...state, symbols: action.symbols}
@@ -84,12 +89,13 @@ const currencyReducer = (state = initialState, action: ActionType): InitialState
 
 type ActionType = setCurrencyType | toggleIsFetchingType | setSymbolsType | setSelectedCurrencyType |
     setSelectedAmountType | setSelectedDate1Type | setSelectedDate2Type | setSelectedTargetCurrencyType |
-    setConversionResultType | setConversionRateType | setConversionHistoryType
+    setConversionResultType | setConversionRateType | setConversionHistoryType | setHystoricalRatesType
 
 type setCurrencyType = {
     type: typeof SET_LATEST_RATES
     rates: Array<RatesType>
 }
+
 type setSymbolsType = {
     type: typeof SET_SYMBOLS
     symbols: Array<SymbolsType>
@@ -116,7 +122,16 @@ type setSelectedDate2Type = {
     selectedDate2: string
 }
 export const setLatestRates = (rates: Array<RatesType>): setCurrencyType => ({type: SET_LATEST_RATES, rates})
+
+type setHystoricalRatesType = {
+    type: typeof SET_HYSTORICAL_RATES
+    historicalRates: Array<RatesType>
+}
+export const setHystorycalRates = (historicalRates: Array<RatesType>): setHystoricalRatesType => (
+    {type: SET_HYSTORICAL_RATES, historicalRates})
+
 export const setSymbols = (symbols: Array<SymbolsType>): setSymbolsType => ({type: SET_SYMBOLS, symbols})
+
 export const setSelectedCurrency = (selectedCurrency: string): setSelectedCurrencyType => ({
     type: SET_SELECTED_CURRENCY, selectedCurrency})
 export const setSelectedTargetCurrency = (selectedTargetCurrency: string): setSelectedTargetCurrencyType => ({
@@ -168,11 +183,22 @@ export const requestLatest = (selectedCurrency:string,selectedAmount:number):Thu
         dispatch(setLatestRates(rates));
     }
 }
+export const requestHistorical = (date:string,base:string, amount:number):ThunkActionType => {
+    return async (dispatch) => {
+        dispatch(toggleIsFetching(true));
+
+        let data = await currencyAPI.currencyHistorical(date,base, amount);
+        let rates = data.rates
+        dispatch(toggleIsFetching(false));
+        dispatch(setHystorycalRates(rates));
+    }
+}
 export const requestSupportedSymbols = ():ThunkActionType => {
     return async (dispatch) => {
         dispatch(toggleIsFetching(true));
 
         let data = await currencyAPI.supportedSymbols();
+        console.log('Reducer_symbols:',data)
         dispatch(toggleIsFetching(false));
         dispatch(setSymbols(data.symbols));
     }
