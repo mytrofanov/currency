@@ -15,6 +15,15 @@ export const getSelectedTargetCurrency = (state:AppStateType) => {
 export const getSelectedAmount = (state:AppStateType) => {
     return state.currency.selectedAmount;
 }
+export const getConversionResult = (state:AppStateType) => {
+    return state.currency.conversionResult;
+}
+export const getConversionRate = (state:AppStateType) => {
+    return state.currency.conversionRate;
+}
+export const getConversionHistory = (state:AppStateType) => {
+    return state.currency.conversionHistory;
+}
 
 
 

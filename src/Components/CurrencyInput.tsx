@@ -4,6 +4,7 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
 import InputBase from '@mui/material/InputBase';
+import {setSelectedTargetCurrency} from "../Redux/currency-reducer";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
     'label + &': {
@@ -14,7 +15,7 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
         position: 'relative',
         backgroundColor: theme.palette.background.paper,
         border: '1px solid #ced4da',
-        fontSize: 16,
+        fontSize: 14,
         padding: '10px 26px 10px 12px',
         transition: theme.transitions.create(['border-color', 'box-shadow']),
         // Use the system font instead of the default Roboto font.
@@ -42,14 +43,17 @@ type propsType = {
     setSelectedCurrency:(arg0:string)=>void
     setSelectedAmount:(arg0:number)=>void
     selectedAmount:number
+    selectedTargetCurrency:string
 }
 
-export default function CustomizedSelects({arrayOfSymbols,setSelectedCurrency,setSelectedAmount,selectedAmount}:propsType) {
+export default function CustomizedSelects({arrayOfSymbols,setSelectedCurrency,setSelectedAmount,
+                                              selectedAmount,selectedTargetCurrency}:propsType) {
     const [currency, setCurrency] = React.useState('');
     const handleChange = (event: { target: { value: string } }) => {
         setCurrency(event.target.value);
         setSelectedCurrency(event.target.value)
     };
+
     const inputChange = (number: number) => {
         setSelectedAmount(number)
     };
@@ -58,6 +62,12 @@ export default function CustomizedSelects({arrayOfSymbols,setSelectedCurrency,se
     arrayOfSymbols.map( (item,index) =>
         oList.push(
             <option value={item} key={item}>{item}</option>
+        )
+    )
+    const targetList:Array<JSX.Element> = []
+    arrayOfSymbols.map( (item,index) =>
+        targetList.push(
+            <option value={item} key={item+index}>{item}</option>
         )
     )
 
@@ -70,7 +80,7 @@ export default function CustomizedSelects({arrayOfSymbols,setSelectedCurrency,se
                             inputChange(Number(event.target.value))}} />
         </FormControl>
                 <FormControl sx={{ m: 1 }} variant="standard">
-    <InputLabel htmlFor="demo-customized-select-native">Currency</InputLabel>
+    <InputLabel htmlFor="demo-customized-select-native">From</InputLabel>
         <NativeSelect
     id="demo-customized-select-native"
     value={currency}
@@ -80,6 +90,7 @@ export default function CustomizedSelects({arrayOfSymbols,setSelectedCurrency,se
             {oList}
         </NativeSelect>
         </FormControl>
+
         </div>
 );
 }

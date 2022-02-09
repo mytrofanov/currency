@@ -1,3 +1,5 @@
+import {historyType} from "../Redux/currency-reducer";
+
 export type currencyMapStateToPropsType = {
     rates: Array<RatesType>
     symbols:Array<SymbolsType>
@@ -5,12 +7,17 @@ export type currencyMapStateToPropsType = {
     selectedTargetCurrency:string
     setSelectedAmount:(arg0:number)=>void
     selectedAmount:number
-
+    conversionResult: number
+    conversionRate: InfoType
+    conversionHistory: Array<number & string>
+    requestConvert:(from:string, to:string, amount:number) => Promise<void>
+    setConversionHistory:(arg0:Array<historyType>)=>void
 }
 export type currencyMapDispatchToPropsType = {
     getRates: (base:string, amount:number) => Promise<void>
     setSelectedCurrency: (arg0: string)=>void
     setSelectedTargetCurrency:(arg0: string)=>void
+    setConversionHistory:(arg0:Array<historyType>)=>void
 }
 export type RatesType = {
     [key: string|number ] : number
@@ -44,4 +51,9 @@ export type ConversionPropsType = {
     setSelectedAmount:(arg0:number)=>void
     selectedAmount:number
     setSelectedTargetCurrency:(arg0:string)=>void
+    conversionResult: number
+    conversionRate: InfoType
+    conversionHistory: Array<number & string>,
+    requestConvert: (from:string, to:string, amount:number) => Promise<void>
+    setConversionHistory:(arg0:Array<historyType>)=>void
 }

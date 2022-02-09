@@ -17,7 +17,7 @@ type CurrencyLatestAPIType = {
 type CurrencyConvertAPIType = {
     base: string | null
     date: string | null | number
-    rates: Array<RatesType>
+    rates?: Array<RatesType>
     success: boolean
     query: queryType
     info: InfoType
@@ -32,10 +32,9 @@ export type SupportedSymbolsAPIType = {
     result: number
 }
 export const currencyAPI = {
-    convert() {
-        return instance.get<CurrencyConvertAPIType>(`convert?from=USD&to=EUR`)
+    convert(from:string,to:string,amount:number) {
+        return instance.get<CurrencyConvertAPIType>(`convert?from=${from}&to=${to}&amount=${amount}`)
             .then(response => {
-                console.log('from API.convert: ',response)
                 return response.data
             });
     },

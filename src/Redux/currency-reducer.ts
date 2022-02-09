@@ -2,7 +2,7 @@ import {currencyAPI} from "../API/Api";
 import {Dispatch} from "redux";
 import {ThunkAction} from "redux-thunk";
 import { AppStateType } from "./reduxStore";
-import {RatesType, SymbolsType} from "../Types/Types";
+import {InfoType, RatesType, SymbolsType} from "../Types/Types";
 
 
 const SET_LATEST_RATES = 'SET_LATEST_RATES';
@@ -10,6 +10,9 @@ const SET_SYMBOLS = 'SET_SYMBOLS';
 const SET_SELECTED_CURRENCY = 'SET_SELECTED_CURRENCY';
 const SET_SELECTED_TARGET_CURRENCY = 'SET_SELECTED_TARGET_CURRENCY';
 const SET_SELECTED_AMOUNT = 'SET_SELECTED_AMOUNT';
+const SET_CONVERSION_RESULT = 'SET_CONVERSION_RESULT';
+const SET_CONVERSION_RATE = 'SET_CONVERSION_RATE';
+const SET_CONVERSION_HISTORY = 'SET_CONVERSION_HISTORY';
 const SET_SELECTED_DATE1 = 'SET_SELECTED_DATE1';
 const SET_SELECTED_DATE2 = 'SET_SELECTED_DATE2';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
@@ -20,6 +23,9 @@ let initialState = {
     selectedCurrency: 'AED',
     selectedTargetCurrency: 'AED',
     selectedAmount: 1 as number,
+    conversionResult: 0 as number,
+    conversionRate: {} as InfoType,
+    conversionHistory: [] as  Array<historyType & string & number>,
     selectedDate1: '',
     selectedDate2: '',
     isFetching: false,
@@ -27,7 +33,11 @@ let initialState = {
 
 type InitialStateType = typeof initialState
 
-
+export type historyType = {
+    from:string,
+    to:string,
+    result:number
+}
 const currencyReducer = (state = initialState, action: ActionType): InitialStateType => {
     switch (action.type) {
         case SET_LATEST_RATES: {
@@ -45,6 +55,18 @@ const currencyReducer = (state = initialState, action: ActionType): InitialState
         case SET_SELECTED_AMOUNT: {
             return {...state, selectedAmount: action.selectedAmount}
         }
+        case SET_CONVERSION_RESULT: {
+            return {...state, conversionResult: action.conversionResult}
+        }
+        case SET_CONVERSION_RATE: {
+            return {...state, conversionRate: action.conversionRate}
+        }
+        case SET_CONVERSION_HISTORY: {
+            return <InitialStateType>{
+                ...state,
+                conversionHistory: [...state.conversionHistory, action.conversionHistory]
+            }
+        }
         case SET_SELECTED_DATE1: {
             return {...state, selectedDate1: action.selectedDate1}
         }
@@ -61,7 +83,8 @@ const currencyReducer = (state = initialState, action: ActionType): InitialState
 }
 
 type ActionType = setCurrencyType | toggleIsFetchingType | setSymbolsType | setSelectedCurrencyType |
-    setSelectedAmountType | setSelectedDate1Type | setSelectedDate2Type | setSelectedTargetCurrencyType
+    setSelectedAmountType | setSelectedDate1Type | setSelectedDate2Type | setSelectedTargetCurrencyType |
+    setConversionResultType | setConversionRateType | setConversionHistoryType
 
 type setCurrencyType = {
     type: typeof SET_LATEST_RATES
@@ -83,6 +106,7 @@ type setSelectedAmountType = {
     type: typeof SET_SELECTED_AMOUNT
     selectedAmount: number
 }
+
 type setSelectedDate1Type = {
     type: typeof SET_SELECTED_DATE1
     selectedDate1: string
@@ -99,6 +123,29 @@ export const setSelectedTargetCurrency = (selectedTargetCurrency: string): setSe
     type: SET_SELECTED_TARGET_CURRENCY, selectedTargetCurrency})
 export const setSelectedAmount = (selectedAmount: number): setSelectedAmountType => ({
     type: SET_SELECTED_AMOUNT, selectedAmount})
+
+type setConversionResultType = {
+    type: typeof SET_CONVERSION_RESULT
+    conversionResult: number
+}
+export const setConversionResult = (conversionResult: number): setConversionResultType => ({
+    type: SET_CONVERSION_RESULT, conversionResult})
+
+type setConversionRateType = {
+    type: typeof SET_CONVERSION_RATE
+    conversionRate: InfoType
+}
+export const setConversionResultRate = (conversionRate: InfoType): setConversionRateType => ({
+    type: SET_CONVERSION_RATE, conversionRate})
+
+//================  HISTORY ==============================
+type setConversionHistoryType = {
+    type: typeof SET_CONVERSION_HISTORY
+    conversionHistory:   Array<historyType & string & number>
+}
+export const setConversionHistory = (conversionHistory: Array<historyType & string & number>):
+    setConversionHistoryType => ({
+    type: SET_CONVERSION_HISTORY, conversionHistory})
 
 export const setSelectedDate1 = (selectedDate1: string): setSelectedDate1Type => ({
     type: SET_SELECTED_DATE1, selectedDate1})
@@ -128,6 +175,16 @@ export const requestSupportedSymbols = ():ThunkActionType => {
         let data = await currencyAPI.supportedSymbols();
         dispatch(toggleIsFetching(false));
         dispatch(setSymbols(data.symbols));
+    }
+}
+export const requestConvert = (from:string,to:string,amount:number):ThunkActionType => {
+    return async (dispatch) => {
+        dispatch(toggleIsFetching(true));
+
+        let data = await currencyAPI.convert(from,to,amount);
+        dispatch(toggleIsFetching(false));
+        dispatch(setConversionResult(data.result));
+        dispatch(setConversionResultRate(data.info));
     }
 }
 type DispatchType = Dispatch<ActionType>
