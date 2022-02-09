@@ -19,7 +19,30 @@
 .sumCurrencyInput {
     width: 40%;
 }
+
 .resultBlock{
     width: 60%;
-    background-color: darkgray;
+    overflow-y: scroll;
+}
+.conversionResult{
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid black;
+
+}
+.conversionResult :active{
+    background-color: darkorange;
+}
+.currencyBlock{
+    width: 40%;
+    text-align: center;
+}
+.sumBlock{
+    width: 50%;
+    text-align: left;
+
+}
+.selectedTarger {
+    background-color: darkorange;
 }

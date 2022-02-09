@@ -8,7 +8,8 @@ const instance = axios.create({
 })
 
 type CurrencyLatestAPIType = {
-    base: string | null
+    base?: string | null
+    amount?: number | null
     date: string | null | number
     rates: Array<RatesType>
     success: boolean
@@ -38,8 +39,8 @@ export const currencyAPI = {
                 return response.data
             });
     },
-    currencyLatest() {
-        return instance.get<CurrencyLatestAPIType>(`latest`)
+    currencyLatest(base:string, amount:number) {
+        return instance.get<CurrencyLatestAPIType>(`latest?base=${base}&amount=${amount}`)
             .then(response => {
                 return response.data
             });
@@ -47,7 +48,6 @@ export const currencyAPI = {
     supportedSymbols() {
         return instance.get<SupportedSymbolsAPIType>(`symbols`)
             .then(response => {
-                console.log('currencyAPI.supportedSymbols(): ',response)
                 return response.data
             });
     },

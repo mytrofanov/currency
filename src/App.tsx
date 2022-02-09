@@ -24,12 +24,11 @@ type AppPropsType = mapStateToPropsType & mapDispatchToPropsType
 function App(props:AppPropsType) {
     const [page, setPage] = React.useState(0);
     useEffect(()=>{
-        console.log('useEffect_props_symbols: ', props.symbols)
         if (props.symbols.length < 1) {
             props.getSymbols()
         }
     },[])
-    console.log('App_props_symbols: ', props.symbols)
+
     return (
         <BrowserRouter>
 

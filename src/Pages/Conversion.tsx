@@ -9,15 +9,31 @@ import {ConversionPropsType} from "../Types/Types";
 
 const Conversion:
     React.FC<ConversionPropsType> = ({ rates, getRates, symbols,
-          setSelectedCurrency, selectedCurrency, setSelectedAmount,selectedAmount
+          setSelectedCurrency, selectedCurrency, setSelectedAmount,selectedAmount,
+                                         setSelectedTargetCurrency,selectedTargetCurrency
                                                    }) => {
-    console.log('selectedCurrency:', selectedCurrency)
-    console.log('selectedAmount:', selectedAmount)
+
+
+    // =========create Array of currency names
     let currencyName = Object.entries(symbols)
     let arrayOfSymbols = [] as Array<string>
-    currencyName.forEach(item => {
+    currencyName.forEach(item=>{
         arrayOfSymbols.push(item[0])
     })
+    // =========create Array of rates (JSX block)
+    let cRates = Object.entries(rates)
+    const ratesToShow:Array<JSX.Element> = []
+    cRates.forEach((item,index)=>console.log('currency',item[0], 'sum', item[1]))
+    cRates.forEach((item,index)=>ratesToShow.push(
+        <div className={s.conversionResult} key={index}>
+            <div className={s.currencyBlock} onClick={()=>{setSelectedTargetCurrency(item[0])}}>
+                {item[0]}
+            </div>
+            <div className={s.sumBlock}>
+                Sum: {item[1]}
+            </div>
+        </div>
+    ))
 
     return (
         <div className={s.conversionPage}>
@@ -40,14 +56,19 @@ const Conversion:
                             }}>Exchange</Button>
                     <Button variant="outlined"
                             onClick={() => {
-                                getRates()
+                                getRates(selectedCurrency,selectedAmount )
                             }}>Get Rates</Button>
-                </div>
-                <div className={s.resultBlock}>
-                    ResultBlock
+                    <div>
+
+                        <h5>Click the name of currency to select as target currency</h5>
+                        Selected Target Currency: <span className={s.selectedTarger}>{selectedTargetCurrency}</span>
+                    </div>
 
 
                 </div>
+                    <div className={s.resultBlock}>
+                        {ratesToShow}
+                    </div>
             </div>
 
 

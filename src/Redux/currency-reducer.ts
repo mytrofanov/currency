@@ -8,6 +8,7 @@ import {RatesType, SymbolsType} from "../Types/Types";
 const SET_LATEST_RATES = 'SET_LATEST_RATES';
 const SET_SYMBOLS = 'SET_SYMBOLS';
 const SET_SELECTED_CURRENCY = 'SET_SELECTED_CURRENCY';
+const SET_SELECTED_TARGET_CURRENCY = 'SET_SELECTED_TARGET_CURRENCY';
 const SET_SELECTED_AMOUNT = 'SET_SELECTED_AMOUNT';
 const SET_SELECTED_DATE1 = 'SET_SELECTED_DATE1';
 const SET_SELECTED_DATE2 = 'SET_SELECTED_DATE2';
@@ -17,6 +18,7 @@ let initialState = {
     rates: [] as Array<RatesType> ,
     symbols: [] as Array<SymbolsType> ,
     selectedCurrency: 'AED',
+    selectedTargetCurrency: 'AED',
     selectedAmount: 1 as number,
     selectedDate1: '',
     selectedDate2: '',
@@ -37,6 +39,9 @@ const currencyReducer = (state = initialState, action: ActionType): InitialState
         case SET_SELECTED_CURRENCY: {
             return {...state, selectedCurrency: action.selectedCurrency}
         }
+        case SET_SELECTED_TARGET_CURRENCY: {
+            return {...state, selectedTargetCurrency: action.selectedTargetCurrency}
+        }
         case SET_SELECTED_AMOUNT: {
             return {...state, selectedAmount: action.selectedAmount}
         }
@@ -56,7 +61,7 @@ const currencyReducer = (state = initialState, action: ActionType): InitialState
 }
 
 type ActionType = setCurrencyType | toggleIsFetchingType | setSymbolsType | setSelectedCurrencyType |
-    setSelectedAmountType | setSelectedDate1Type | setSelectedDate2Type
+    setSelectedAmountType | setSelectedDate1Type | setSelectedDate2Type | setSelectedTargetCurrencyType
 
 type setCurrencyType = {
     type: typeof SET_LATEST_RATES
@@ -69,6 +74,10 @@ type setSymbolsType = {
 type setSelectedCurrencyType = {
     type: typeof SET_SELECTED_CURRENCY
     selectedCurrency: string
+}
+type setSelectedTargetCurrencyType = {
+    type: typeof SET_SELECTED_TARGET_CURRENCY
+    selectedTargetCurrency: string
 }
 type setSelectedAmountType = {
     type: typeof SET_SELECTED_AMOUNT
@@ -86,6 +95,8 @@ export const setLatestRates = (rates: Array<RatesType>): setCurrencyType => ({ty
 export const setSymbols = (symbols: Array<SymbolsType>): setSymbolsType => ({type: SET_SYMBOLS, symbols})
 export const setSelectedCurrency = (selectedCurrency: string): setSelectedCurrencyType => ({
     type: SET_SELECTED_CURRENCY, selectedCurrency})
+export const setSelectedTargetCurrency = (selectedTargetCurrency: string): setSelectedTargetCurrencyType => ({
+    type: SET_SELECTED_TARGET_CURRENCY, selectedTargetCurrency})
 export const setSelectedAmount = (selectedAmount: number): setSelectedAmountType => ({
     type: SET_SELECTED_AMOUNT, selectedAmount})
 
@@ -100,11 +111,11 @@ export type toggleIsFetchingType = {
 }
 export const toggleIsFetching = (isFetching:boolean):toggleIsFetchingType => ({type: TOGGLE_IS_FETCHING, isFetching})
 
-export const requestLatest = ():ThunkActionType => {
+export const requestLatest = (selectedCurrency:string,selectedAmount:number):ThunkActionType => {
     return async (dispatch) => {
         dispatch(toggleIsFetching(true));
 
-        let data = await currencyAPI.currencyLatest();
+        let data = await currencyAPI.currencyLatest(selectedCurrency, selectedAmount);
         let rates = data.rates
         dispatch(toggleIsFetching(false));
         dispatch(setLatestRates(rates));

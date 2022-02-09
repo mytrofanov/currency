@@ -1,9 +1,20 @@
 import React from "react";
 import {connect} from "react-redux";
 import {compose} from "redux";
-import {requestLatest, setSelectedAmount, setSelectedCurrency} from "../Redux/currency-reducer";
+import {
+    requestLatest,
+    setSelectedAmount,
+    setSelectedCurrency,
+    setSelectedTargetCurrency
+} from "../Redux/currency-reducer";
 import {AppStateType} from "../Redux/reduxStore";
-import {getRates, getSelectedAmount, getSelectedCurrency, getSymbols} from "../Redux/usersSelectors";
+import {
+    getRates,
+    getSelectedAmount,
+    getSelectedCurrency,
+    getSelectedTargetCurrency,
+    getSymbols
+} from "../Redux/usersSelectors";
 import Conversion from "./Conversion";
 import {currencyMapDispatchToPropsType, currencyMapStateToPropsType} from "../Types/Types";
 
@@ -20,6 +31,8 @@ class ConversionContainer extends React.Component <conversionPropsType>  {
                             selectedCurrency={this.props.selectedCurrency}
                             setSelectedAmount={this.props.setSelectedAmount}
                             selectedAmount={this.props.selectedAmount}
+                            setSelectedTargetCurrency={this.props.setSelectedTargetCurrency}
+                            selectedTargetCurrency={this.props.selectedTargetCurrency}
                 />
             </div>
     }
@@ -30,6 +43,7 @@ let currencyMapStateToProps = (state: AppStateType):currencyMapStateToPropsType 
         rates: getRates(state),
         symbols: getSymbols(state),
         selectedCurrency: getSelectedCurrency(state),
+        selectedTargetCurrency: getSelectedTargetCurrency(state),
         selectedAmount: getSelectedAmount(state),
     } as currencyMapStateToPropsType
 }
@@ -39,6 +53,7 @@ export default compose(
         {
             getRates:requestLatest,
             setSelectedCurrency: setSelectedCurrency,
-            setSelectedAmount:setSelectedAmount
+            setSelectedAmount:setSelectedAmount,
+            setSelectedTargetCurrency:setSelectedTargetCurrency
         }),
     )(ConversionContainer)
