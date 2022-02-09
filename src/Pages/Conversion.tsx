@@ -19,12 +19,7 @@ const Conversion:
     let [rerender, setRerender] = useState(false)
 
 
-    // =========create Array of currency names
-    let currencyName = Object.entries(symbols)
-    let arrayOfSymbols = [] as Array<string>
-    currencyName.forEach(item => {
-        arrayOfSymbols.push(item[0])
-    })
+
     // =========create Array of rates (JSX block)
     let cRates = Object.entries(rates)
     const ratesToShow: Array<JSX.Element> = []
@@ -72,7 +67,7 @@ const Conversion:
                         Select currency to exchange
                     </Typography>
 
-                    <CustomizedSelects arrayOfSymbols={arrayOfSymbols}
+                    <CustomizedSelects symbols={symbols}
                                        setSelectedCurrency={setSelectedCurrency}
                                        setSelectedAmount={setSelectedAmount}
                                        selectedAmount={selectedAmount}

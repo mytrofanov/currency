@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 // @ts-ignore
 import s from './styles/Historical.module.css'
 import BasicDatePicker from "../Components/DatePicker";
@@ -7,21 +7,16 @@ import {HystoricalPropsType} from "../Types/Types";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import NativeSelect from "@mui/material/NativeSelect";
+import Button from "@mui/material/Button";
 
 
 const Historical: React.FC<HystoricalPropsType> = ({
                                                        getHistoricalRates, symbols, setSelectedCurrency,
                                                        selectedCurrency, setSelectedAmount, selectedAmount
                                                    }) => {
-    useEffect(() => {
-        console.log('Historical props.symbols', arrayOfSymbols)
-    }, [symbols])
-// =========create Array of currency names
-    let currencyName = Object.entries(symbols)
-    let arrayOfSymbols = [] as Array<string>
-    currencyName.forEach(item => {
-        arrayOfSymbols.push(item[0])
-    })
+    let [date,setDate]=useState('')
+
+
 
     return (
         <div className={s.historicalPage}>
@@ -31,11 +26,15 @@ const Historical: React.FC<HystoricalPropsType> = ({
                     <BasicDatePicker/>
 
                     <CustomizedSelects
-                        arrayOfSymbols={arrayOfSymbols}
+                        symbols={symbols}
                         setSelectedCurrency={setSelectedCurrency}
                         setSelectedAmount={setSelectedAmount}
                         selectedAmount={selectedAmount}
                     />
+                    <Button variant="outlined"
+                            onClick={() => {
+
+                            }}>Get Historical Rates</Button>
                 </div>
                 <div className={s.historicalRates}>
                     rates

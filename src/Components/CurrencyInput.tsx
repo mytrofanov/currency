@@ -39,15 +39,21 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
     },
 }));
 type propsType = {
-    arrayOfSymbols: Array<string> | SymbolsType[]
     setSelectedCurrency:(arg0:string)=>void
     setSelectedAmount:(arg0:number)=>void
     selectedAmount:number
+    symbols:Array<SymbolsType>
 }
 
-export default function CustomizedSelects({arrayOfSymbols,setSelectedCurrency,setSelectedAmount,
+export default function CustomizedSelects({setSelectedCurrency,setSelectedAmount,symbols,
                                               selectedAmount}:propsType) {
     const [currency, setCurrency] = React.useState('');
+    // =========create Array of currency names
+    let currencyName = Object.entries(symbols)
+    let arrayOfSymbols = [] as Array<string>
+    currencyName.forEach(item => {
+        arrayOfSymbols.push(item[0])
+    })
     const handleChange = (event: { target: { value: string } }) => {
         setCurrency(event.target.value);
         setSelectedCurrency(event.target.value)
