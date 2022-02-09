@@ -5,6 +5,7 @@ import {
     HistoricalMapDispatchToPropsType, HistoricalMapStateToPropsType
 } from "../Types/Types";
 import {
+    getHistoricalRates,
     getSelectedAmount,
     getSelectedCurrency,
     getSymbols
@@ -32,6 +33,7 @@ class HistoricalContainer extends React.Component <HistoricalPropsType> {
                         selectedCurrency={this.props.selectedCurrency}
                         setSelectedAmount={this.props.setSelectedAmount}
                         selectedAmount={this.props.selectedAmount}
+                        historicalRates={this.props.historicalRates}
             />
         </div>
 
@@ -40,6 +42,7 @@ class HistoricalContainer extends React.Component <HistoricalPropsType> {
 
 let historicalMapStateToProps = (state: AppStateType): HistoricalMapStateToPropsType => {
     return {
+        historicalRates: getHistoricalRates(state),
         symbols: getSymbols(state),
         selectedCurrency: getSelectedCurrency(state),
         selectedAmount: getSelectedAmount(state),

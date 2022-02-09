@@ -76,6 +76,7 @@ export type ConversionPropsType = {
 }
 export type HystoricalPropsType = {
     getHistoricalRates: (date:string, base:string, amount:number) => Promise<void>
+    historicalRates:Array<RatesType>
     symbols: Array<SymbolsType>
     setSelectedCurrency:(arg0:string)=>void
     selectedCurrency:string

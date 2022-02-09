@@ -3,6 +3,9 @@ import {AppStateType} from "./reduxStore";
 export const getRates = (state:AppStateType) => {
     return state.currency.rates;
 }
+export const getHistoricalRates = (state:AppStateType) => {
+    return state.currency.historicalRates;
+}
 export const getSymbols = (state:AppStateType) => {
     return state.currency.symbols;
 }

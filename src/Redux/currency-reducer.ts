@@ -198,7 +198,6 @@ export const requestSupportedSymbols = ():ThunkActionType => {
         dispatch(toggleIsFetching(true));
 
         let data = await currencyAPI.supportedSymbols();
-        console.log('Reducer_symbols:',data)
         dispatch(toggleIsFetching(false));
         dispatch(setSymbols(data.symbols));
     }

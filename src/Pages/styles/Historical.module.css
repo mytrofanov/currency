@@ -25,5 +25,10 @@
 }
 .historicalRates{
     width: 50%;
-    background-color: darkseagreen;
+
+}
+.historicalRatesToShow{
+    width: 90%;
+    height: 100%;
+    overflow-y: scroll;
 }

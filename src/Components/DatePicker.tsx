@@ -3,21 +3,23 @@ import TextField from '@mui/material/TextField';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
-import {useEffect} from "react";
+import {Dispatch, SetStateAction, useEffect} from "react";
+
+type propsType = {
+    setDate: Dispatch<SetStateAction<string>>
+}
 
 
-export default function BasicDatePicker() {
+export default function BasicDatePicker({setDate}:propsType) {
     const [value, setValue] = React.useState<Date | null>(null);
-    let date = new Date();
-
-    if (value){
-        let dateYMD = value.toLocaleDateString ("fr-CA");
-        console.log (dateYMD);
-    }
 
 
+ useEffect(()=>{
+     if (value){
+     let dateYMD = value.toLocaleDateString ("fr-CA");
+     setDate(dateYMD)
 
-    // useEffect(()=>{console.log('calendar:' , value)},[value])
+ }},[value])
 
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
