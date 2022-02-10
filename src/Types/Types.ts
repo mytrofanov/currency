@@ -21,6 +21,14 @@ export type HistoricalMapStateToPropsType = {
     setSelectedAmount:(arg0:number)=>void
     selectedAmount:number
 }
+export type GraphMapStateToPropsType = {
+    periodRates: Array<RatesType>
+    symbols:Array<SymbolsType>
+    selectedCurrency:string
+    selectedTargetCurrency:string
+    setSelectedAmount:(arg0:number)=>void
+    selectedAmount:number
+}
 export type compareMapStateToPropsPropsType = {
     historicalRates: Array<RatesType>
     historicalRatesDay2: Array<RatesType>
@@ -34,6 +42,15 @@ export type HistoricalMapDispatchToPropsType = {
     getHistoricalRates:(date:string, base:string, amount:number) => Promise<void>
     setSelectedCurrency:(arg0: string)=>void
     historicalRates: Array<RatesType>
+    symbols:Array<SymbolsType>
+    selectedCurrency:string
+    setSelectedAmount:(arg0:number)=>void
+    selectedAmount:number
+}
+export type GraphMapDispatchToPropsType = {
+    requestPeriod:(dateStart:string,dateEnd:string, base:string, amount:number) => Promise<void>
+    setSelectedCurrency:(arg0: string)=>void
+    setSelectedTargetCurrency:(arg0: string)=>void
     symbols:Array<SymbolsType>
     selectedCurrency:string
     setSelectedAmount:(arg0:number)=>void
@@ -91,6 +108,19 @@ export type HystoricalPropsType = {
     selectedCurrency:string
     setSelectedAmount:(arg0:number)=>void
     selectedAmount:number
+}
+
+export type GraphPropsType = {
+    requestPeriod: (dateStart:string,dateEnd:string, base:string, amount:number) => Promise<void>
+    periodRates:Array<RatesType>
+    symbols: Array<SymbolsType>
+    setSelectedCurrency:(arg0:string)=>void
+    selectedCurrency:string
+    setSelectedAmount:(arg0:number)=>void
+    selectedAmount:number
+    selectedTargetCurrency:string
+    setSelectedTargetCurrency:(arg0:string)=>void
+
 }
 export type ComparePropsType = {
     getHistoricalRates: (date:string, base:string, amount:number) => Promise<void>

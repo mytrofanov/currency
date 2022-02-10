@@ -50,6 +50,12 @@ export const currencyAPI = {
                 return response.data
             });
     },
+    currencyPeriod(dateStart:string,dateEnd:string, base:string, amount:number) {
+        return instance.get<CurrencyLatestAPIType>(`timeseries?start_date=${dateStart}&end_date=${dateEnd}'&base=${base}&amount=${amount}`)
+            .then(response => {
+                return response.data
+            });
+    },
     supportedSymbols() {
         return instance.get<SupportedSymbolsAPIType>(`symbols`)
             .then(response => {

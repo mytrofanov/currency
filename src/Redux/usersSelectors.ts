@@ -9,6 +9,9 @@ export const getHistoricalRates = (state:AppStateType) => {
 export const getHistoricalRatesDay2 = (state:AppStateType) => {
     return state.currency.historicalRatesDay2;
 }
+export const getPeriodRates = (state:AppStateType) => {
+    return state.currency.periodRates;
+}
 export const getSymbols = (state:AppStateType) => {
     return state.currency.symbols;
 }

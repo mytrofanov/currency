@@ -7,6 +7,7 @@ import {InfoType, RatesType, SymbolsType} from "../Types/Types";
 
 const SET_LATEST_RATES = 'SET_LATEST_RATES';
 const SET_HYSTORICAL_RATES = 'SET_HYSTORICAL_RATES';
+const SET_PERIOD_RATES = 'SET_PERIOD_RATES';
 const SET_HYSTORICAL_RATES_DAY2 = 'SET_HYSTORICAL_RATES_DAY2';
 const SET_SYMBOLS = 'SET_SYMBOLS';
 const SET_SELECTED_CURRENCY = 'SET_SELECTED_CURRENCY';
@@ -21,6 +22,7 @@ const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 
 let initialState = {
     rates: [] as Array<RatesType> ,
+    periodRates: [] as Array<RatesType> ,
     historicalRates: [] as Array<RatesType> ,
     historicalRatesDay2: [] as Array<RatesType> ,
     symbols: [] as Array<SymbolsType> ,
@@ -46,6 +48,9 @@ const currencyReducer = (state = initialState, action: ActionType): InitialState
     switch (action.type) {
         case SET_LATEST_RATES: {
             return {...state, rates: action.rates}
+        }
+        case SET_PERIOD_RATES: {
+            return {...state, periodRates: action.periodRates}
         }
         case SET_HYSTORICAL_RATES: {
             return {...state, historicalRates: action.historicalRates}
@@ -95,13 +100,12 @@ const currencyReducer = (state = initialState, action: ActionType): InitialState
 type ActionType = setCurrencyType | toggleIsFetchingType | setSymbolsType | setSelectedCurrencyType |
     setSelectedAmountType | setSelectedDate1Type | setSelectedDate2Type | setSelectedTargetCurrencyType |
     setConversionResultType | setConversionRateType | setConversionHistoryType | setHystoricalRatesType |
-    setHystoricalRatesDay2Type
+    setHystoricalRatesDay2Type | setPeriodRatesType
 
 type setCurrencyType = {
     type: typeof SET_LATEST_RATES
     rates: Array<RatesType>
 }
-
 type setSymbolsType = {
     type: typeof SET_SYMBOLS
     symbols: Array<SymbolsType>
@@ -128,6 +132,13 @@ type setSelectedDate2Type = {
     selectedDate2: string
 }
 export const setLatestRates = (rates: Array<RatesType>): setCurrencyType => ({type: SET_LATEST_RATES, rates})
+
+type setPeriodRatesType = {
+    type: typeof SET_PERIOD_RATES
+    periodRates: Array<RatesType>
+}
+export const setPeriodRates = (periodRates: Array<RatesType>): setPeriodRatesType => ({
+    type: SET_PERIOD_RATES, periodRates})
 
 type setHystoricalRatesType = {
     type: typeof SET_HYSTORICAL_RATES
@@ -214,6 +225,16 @@ export const requestHistoricalDay2 = (date:string,base:string, amount:number):Th
         let rates = data.rates
         dispatch(toggleIsFetching(false));
         dispatch(setHystoricalRatesDay2(rates));
+    }
+}
+export const requestPeriod = (dateStart:string,dateEnd:string, base:string, amount:number):ThunkActionType => {
+    return async (dispatch) => {
+        dispatch(toggleIsFetching(true));
+
+        let data = await currencyAPI.currencyPeriod(dateStart,dateEnd, base, amount);
+        let rates = data.rates
+        dispatch(toggleIsFetching(false));
+        dispatch(setPeriodRates(rates));
     }
 }
 export const requestSupportedSymbols = ():ThunkActionType => {
