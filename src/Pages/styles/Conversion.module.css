@@ -30,6 +30,7 @@
 .conversionResult{
     width: 90%;
     display: flex;
+    padding-top: 2px;
     flex-direction: row;
     border-bottom: 1px solid black;
 

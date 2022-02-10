@@ -6,18 +6,18 @@ import DatePicker from '@mui/lab/DatePicker';
 import {Dispatch, SetStateAction, useEffect} from "react";
 
 type propsType = {
-    setDate: Dispatch<SetStateAction<string>>
+    setDate2: Dispatch<SetStateAction<string>>
 }
 
 
-export default function BasicDatePicker({setDate}:propsType) {
+export default function SecondDatePicker({setDate2}:propsType) {
     const [value, setValue] = React.useState<Date | null>(null);
 
 
  useEffect(()=>{
      if (value){
      let dateYMD = value.toLocaleDateString ("fr-CA");
-     setDate(dateYMD)
+     setDate2(dateYMD)
 
  }},[value])
 

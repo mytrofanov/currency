@@ -21,6 +21,15 @@ export type HistoricalMapStateToPropsType = {
     setSelectedAmount:(arg0:number)=>void
     selectedAmount:number
 }
+export type compareMapStateToPropsPropsType = {
+    historicalRates: Array<RatesType>
+    historicalRatesDay2: Array<RatesType>
+    symbols:Array<SymbolsType>
+    selectedCurrency:string
+    selectedTargetCurrency:string
+    setSelectedAmount:(arg0:number)=>void
+    selectedAmount:number
+}
 export type HistoricalMapDispatchToPropsType = {
     getHistoricalRates:(date:string, base:string, amount:number) => Promise<void>
     setSelectedCurrency:(arg0: string)=>void
@@ -77,6 +86,17 @@ export type ConversionPropsType = {
 export type HystoricalPropsType = {
     getHistoricalRates: (date:string, base:string, amount:number) => Promise<void>
     historicalRates:Array<RatesType>
+    symbols: Array<SymbolsType>
+    setSelectedCurrency:(arg0:string)=>void
+    selectedCurrency:string
+    setSelectedAmount:(arg0:number)=>void
+    selectedAmount:number
+}
+export type ComparePropsType = {
+    getHistoricalRates: (date:string, base:string, amount:number) => Promise<void>
+    getHistoricalRatesDay2: (date:string, base:string, amount:number) => Promise<void>
+    historicalRates:Array<RatesType>
+    historicalRatesDay2:Array<RatesType>
     symbols: Array<SymbolsType>
     setSelectedCurrency:(arg0:string)=>void
     selectedCurrency:string

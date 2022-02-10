@@ -6,6 +6,9 @@ export const getRates = (state:AppStateType) => {
 export const getHistoricalRates = (state:AppStateType) => {
     return state.currency.historicalRates;
 }
+export const getHistoricalRatesDay2 = (state:AppStateType) => {
+    return state.currency.historicalRatesDay2;
+}
 export const getSymbols = (state:AppStateType) => {
     return state.currency.symbols;
 }

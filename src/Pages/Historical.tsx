@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 // @ts-ignore
 import s from './styles/Historical.module.css'
 import BasicDatePicker from "../Components/DatePicker";
@@ -18,7 +18,10 @@ const Historical: React.FC<HystoricalPropsType> = ({getHistoricalRates, symbols,
 
 
     function getHistory() {
-        getHistoricalRates(date, selectedCurrency, selectedAmount)
+        if(date.length>1) {
+            getHistoricalRates(date, selectedCurrency, selectedAmount)
+        }
+
     }
 
     let cRates = Object.entries(historicalRates)
